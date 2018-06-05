@@ -1,13 +1,9 @@
-
-import {distinctUntilChanged, debounceTime, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+
+import { of } from 'rxjs';
+import { distinctUntilChanged, debounceTime, map, catchError } from 'rxjs/operators';
+
 import { ApiService } from './api.service';
-
-
-
-
-
-
 @Injectable()
 export class MusicService {
 
@@ -26,7 +22,7 @@ export class MusicService {
 
   play(url) {
     this.load(url);
-    this.audio.play()
+    this.audio.play();
   }
 
   getPlaylistTracks () {
@@ -34,9 +30,12 @@ export class MusicService {
       // -https://github.com/mediaelement/mediaelement/issues/2501
       //Request for a playlist via Soundcloud using a client id
       // return this.apiService.get('https://api.soundcloud.com/playlists/209262931', true).pipe(
-      return this.apiService.get('https://api.soundcloud.com/playlists/323195515', true).pipe(
-        map(res => res.json()),
-        map(data => data.tracks),);
+      return this.apiService.get('https://api.soundcloud.com/playlists/323195515', true)
+        .pipe(
+          map(res => res.json()),
+          map(data => data.tracks),
+          catchError(error => of(`error: ${error}`))
+        );
   }
 
   randomTrack(tracks) {
@@ -48,7 +47,7 @@ export class MusicService {
   }
 
   formatTime(seconds) {
-    let minutes:any = Math.floor(seconds / 60);
+    let minutes: any = Math.floor(seconds / 60);
     minutes = (minutes >= 10) ? minutes : "0" + minutes;
     seconds = Math.floor(seconds % 60);
     seconds = (seconds >= 10) ? seconds : "0" + seconds;
@@ -56,10 +55,13 @@ export class MusicService {
   }
 
   findTracks(value) {
-    return this.apiService.get(`${this.apiService.prepareUrl('https://api.soundcloud.com/tracks')}&q=${value}`, false).pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      map(res => res.json()),)
+    return this.apiService.get(`${this.apiService.prepareUrl('https://api.soundcloud.com/tracks')}&q=${value}`, false)
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        map(res => res.json()),
+        catchError(error => of(`error: ${error}`))
+      );
   }
 
   xlArtwork(url) {

@@ -10,5 +10,7 @@ export class MusicProgressComponent implements OnInit {
   @Input() total: string;
   @Input() current: number;
 
+  debug = true;
+
   ngOnInit() {}
 }

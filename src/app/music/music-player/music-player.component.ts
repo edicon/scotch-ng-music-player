@@ -13,4 +13,3 @@ export class MusicPlayerComponent {
   @Output() random = new EventEmitter();
   @Output() stop = new EventEmitter();
 }
-
