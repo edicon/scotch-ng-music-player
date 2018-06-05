@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
       if ((typeof tracks) === 'string' ) {
         this.elapsed = '';
         this.duration = '';
+        this.position = 0;
         return;
       }
       this.tracks = tracks;
@@ -85,9 +86,7 @@ export class AppComponent implements OnInit {
     const elapsed =  this.musicService.audio.currentTime;
     let duration =  this.musicService.audio.duration;
     if (isNaN(duration)) {
-      duration = 0;
-      this.elapsed = 0;
-      this.duration = 0;
+      duration = 1;
     }
     this.position = elapsed / duration;
     this.elapsed = this.musicService.formatTime(elapsed);

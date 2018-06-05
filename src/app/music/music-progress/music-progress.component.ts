@@ -12,5 +12,7 @@ export class MusicProgressComponent implements OnInit {
 
   debug = true;
 
-  ngOnInit() {}
+  ngOnInit() {
+    // this.current = 0;
+  }
 }
