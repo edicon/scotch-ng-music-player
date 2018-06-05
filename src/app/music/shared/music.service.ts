@@ -30,8 +30,11 @@ export class MusicService {
   }
 
   getPlaylistTracks () {
+      // SoundCloud without Client ID
+      // -https://github.com/mediaelement/mediaelement/issues/2501
       //Request for a playlist via Soundcloud using a client id
-      return this.apiService.get('https://api.soundcloud.com/playlists/209262931', true).pipe(
+      // return this.apiService.get('https://api.soundcloud.com/playlists/209262931', true).pipe(
+      return this.apiService.get('https://api.soundcloud.com/playlists/323195515', true).pipe(
         map(res => res.json()),
         map(data => data.tracks),);
   }
